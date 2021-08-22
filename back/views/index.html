@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=97af461df748b6c5f13c74f6be7e64f1"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=97af461df748b6c5f13c74f6be7e64f1&libraries=services"></script>
+</head>
+<body>
+    <div id="map" style="width:1000px;height:500px;"></div>
+</body>
+<script>
+    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+    var options = { //지도를 생성할 때 필요한 기본 옵션
+        center: new kakao.maps.LatLng(37.55472454441203, 126.98315996690128), //지도의 중심좌표.
+        level: 7 //지도의 레벨(확대, 축소 정도)
+    };
+
+    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    var zoomControl = new kakao.maps.ZoomControl(); //줌컨트롤
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT); //줌컨트롤 위치
+    kakao.maps.event.addListener(map, 'rightclick', function(mouseEvent) {
+        var latlng = mouseEvent.latLng;
+        console.log('right click! ' + latlng.toString());
+    });
+
+</script>
+</html>
