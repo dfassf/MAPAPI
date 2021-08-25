@@ -12,19 +12,60 @@
     <div id="map" style="width:1000px;height:500px;"></div>
 </body>
 <script>
-    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-    var options = { //지도를 생성할 때 필요한 기본 옵션
+    let clickFlag
+
+
+    var mapContainer = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+    var mapOption = { //지도를 생성할 때 필요한 기본 옵션
         center: new kakao.maps.LatLng(37.55472454441203, 126.98315996690128), //지도의 중심좌표.
         level: 7 //지도의 레벨(확대, 축소 정도)
     };
+    //지도 생성 및 객체 리턴
+    var map = new kakao.maps.Map(mapContainer, mapOption); 
 
-    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-    var zoomControl = new kakao.maps.ZoomControl(); //줌컨트롤
+    //줌컨트롤 관련 
+    var zoomControl = new kakao.maps.ZoomControl(); 
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT); //줌컨트롤 위치
     kakao.maps.event.addListener(map, 'rightclick', function(mouseEvent) {
         var latlng = mouseEvent.latLng;
         console.log('right click! ' + latlng.toString());
     });
-    console.log(kakao)
+
+    // 마커를 표시할 위치입니다 
+    var position =  new kakao.maps.LatLng(37.55472454441203, 126.98315996690128);
+
+    // 마커가 표시될 위치입니다 
+    var markerPosition  = new kakao.maps.LatLng(37.55472454441203, 126.98315996690128); 
+
+    // 마커를 생성합니다
+var marker = new kakao.maps.Marker({
+  position: position
+});
+
+// 마커를 지도에 표시합니다.
+marker.setMap(map);
+
+// 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
+var iwContent = '<div style="padding:5px;">Hello World!</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+
+// 인포윈도우를 생성합니다
+var infowindow = new kakao.maps.InfoWindow({
+    content : iwContent
+});
+
+// 마커에 마우스오버 이벤트를 등록합니다
+kakao.maps.event.addListener(marker, 'click', function() {
+  // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+    if(clickFlag)
+    infowindow.open(map, marker);
+});
+
+// 마커에 마우스아웃 이벤트를 등록합니다
+kakao.maps.event.addListener(marker, 'click', function() {
+    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+    infowindow.close();
+});
+
+
 </script>
 </html>
